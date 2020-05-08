@@ -1,34 +1,28 @@
 //
-//  ArticleRow.swift
+//  ArticleContent.swift
 //  NewsSwiftUI
 //
-//  Created by Mavericks's iOS Dev on 07-05-20.
+//  Created by Mavericks's iOS Dev on 08-05-20.
 //  Copyright © 2020 Mavericks. All rights reserved.
 //
 
 import SwiftUI
 
-struct ArticleRow: View {
+struct ArticleContent: View {
     
     @State var article: Article
     
     var body: some View {
-        GeometryReader{
-            geometry in
-            if self.article.urlToImage != ""{
-                
-                ArticleContent(article: self.article).background(GradientRectangle().frame(width: geometry.size.width).background(ArticleImage(imageLoader: ImageLoader(url: URL(string: self.article.urlToImage)!)))).frame(width: geometry.size.width)                
-                
-            }else{
-                GradientRectangle().overlay(ArticleContent(article: self.article))
-            }
-            
-        }
-        
+        VStack(alignment: .leading, spacing: 8.0){
+            Text(self.article.author).font(.footnote).foregroundColor(.white)
+            Text(self.article.title).font(.title).foregroundColor(.white)
+            Text(self.article.description).font(.body).foregroundColor(.gray)
+            Spacer()
+        }.padding(16.0)
     }
 }
 
-struct ArticleRow_Previews: PreviewProvider {
+struct ArticleContent_Previews: PreviewProvider {
     static let article = Article(JSON: [
         "author": "unnamed",
         "title": "Live Coronavirus News Updates - The New York Times",
@@ -39,7 +33,6 @@ struct ArticleRow_Previews: PreviewProvider {
         "content": "Heres what you need to know:\r\nA copy of the C.D.C. guidance obtained by The New York Times includes sections for child care programs, schools and day camps, churches and other communities of faith, employers with vulnerable workers, restaurants and bars, and … [+32597 chars]"
     ])!
     static var previews: some View {
-        
-        ArticleRow(article: Self.article).frame(height: 300).previewLayout(.fixed(width: 500, height: 300))
+        ArticleContent(article: Self.article)
     }
 }
