@@ -21,6 +21,7 @@ struct ArticlesInteractor: ArticlesBusinessLogic {
     
     func retrieveArticles() {
         worker.fetchTopArticles { (result) in
+            self.appState.loading = false
             switch result{
             case .failure(let error):
                 //TODO

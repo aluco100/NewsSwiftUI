@@ -10,4 +10,5 @@ import Foundation
 
 class ArticlesAppStates: ObservableObject {
     @Published var articles: [Article] = []
+    @Published var loading: Bool = true
 }
