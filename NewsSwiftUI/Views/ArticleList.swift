@@ -15,8 +15,9 @@ struct ArticleList: View {
     
     var body: some View {
         NavigationView{
-            ScrollView{
-                GeometryReader { geo in
+            GeometryReader{
+                geo in
+                ScrollView(.vertical){
                     VStack {
                         ForEach(self.appState.articles){
                             article in
@@ -24,7 +25,7 @@ struct ArticleList: View {
                         }
                     }
                     .frame(width: geo.size.width)
-                }
+                }.frame(width: geo.size.width,height: geo.size.height)
             }
             .onAppear{
                 self.interactor.retrieveArticles()
