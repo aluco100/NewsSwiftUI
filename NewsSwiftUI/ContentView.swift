@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    static let articleAppState = ArticlesAppStates()
     var body: some View {
-        Text("Hello, World!")
+        ArticleList(appState: Self.articleAppState,interactor: ArticlesInteractor(appState: Self.articleAppState))
     }
 }
 
