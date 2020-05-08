@@ -13,20 +13,27 @@ struct ArticleRow: View {
     @State var article: Article
     
     var body: some View {
-        ZStack{
-            if article.urlToImage != ""{
-                Rectangle().foregroundColor(Color(UIColor.black.withAlphaComponent(0.43))).background(LinearGradient(gradient: Gradient(colors: [.black, Color(UIColor.black.withAlphaComponent(0.0))]), startPoint: .bottom, endPoint: .top)).background(ArticleImage(imageLoader: ImageLoader(url: URL(string: article.urlToImage)!)))
+        GeometryReader{
+            geometry in
+            if self.article.urlToImage != ""{
+               
+                ArticleImage(imageLoader: ImageLoader(url: URL(string: self.article.urlToImage)!)).overlay(Rectangle().foregroundColor(Color(UIColor.black.withAlphaComponent(0.43))).background(LinearGradient(gradient: Gradient(colors: [.black, Color(UIColor.black.withAlphaComponent(0.0))]), startPoint: .bottom, endPoint: .top))).overlay(VStack(alignment: .leading, spacing: 8.0){
+                    Text(self.article.author).font(.footnote).foregroundColor(.white)
+                    Text(self.article.title).font(.title).foregroundColor(.white)
+                    Text(self.article.description).font(.body).foregroundColor(.gray)
+                    Spacer()
+                }.padding(16.0))
             }else{
-                Rectangle().foregroundColor(Color(UIColor.black.withAlphaComponent(0.43))).background(LinearGradient(gradient: Gradient(colors: [.black, Color(UIColor.black.withAlphaComponent(0.0))]), startPoint: .bottom, endPoint: .top))
+                Rectangle().foregroundColor(Color(UIColor.black.withAlphaComponent(0.43))).background(LinearGradient(gradient: Gradient(colors: [.black, Color(UIColor.black.withAlphaComponent(0.0))]), startPoint: .bottom, endPoint: .top)).overlay(VStack(alignment: .leading, spacing: 8.0){
+                    Text(self.article.author).font(.footnote).foregroundColor(.white)
+                    Text(self.article.title).font(.title).foregroundColor(.white)
+                    Text(self.article.description).font(.body).foregroundColor(.gray)
+                    Spacer()
+                }.padding(16.0))
             }
             
-            VStack(alignment: .leading, spacing: 8.0){
-                Text(article.author).font(.footnote).foregroundColor(.white)
-                Text(article.title).font(.title).foregroundColor(.white)
-                Text(article.description).font(.body).foregroundColor(.gray)
-                Spacer()
-            }
-        }.padding(16.0)
+        }
+        
     }
 }
 

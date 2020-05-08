@@ -15,12 +15,15 @@ struct ArticleList: View {
     
     var body: some View {
         NavigationView{
-            ScrollView(.vertical){
-                VStack{
-                    ForEach(appState.articles){
-                        article in
-                        ArticleRow(article: article).frame(height: 300)
+            ScrollView{
+                GeometryReader { geo in
+                    VStack {
+                        ForEach(self.appState.articles){
+                            article in
+                            ArticleRow(article: article).frame(height: 300)
+                        }
                     }
+                    .frame(width: geo.size.width)
                 }
             }
             .onAppear{
