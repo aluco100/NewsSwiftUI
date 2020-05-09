@@ -12,6 +12,7 @@ import WebKit
 
 struct ArticleWebView: UIViewRepresentable {
     
+    @ObservedObject var appState: ArticleDetailAppState
     @State var article: Article
     
     let webview = WKWebView()
@@ -25,23 +26,26 @@ struct ArticleWebView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: WKWebView, context: UIViewRepresentableContext<ArticleWebView>) {
-        return
+        
     }
     
     class Coordinator: NSObject, WKNavigationDelegate {
         private var article: Article
+        private var appState: ArticleDetailAppState
         
-        init(article: Article){
+        init(article: Article,state: ArticleDetailAppState){
             self.article = article
+            self.appState = state
         }
         
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            
+            print("CARGO")
+            self.appState.loading = false
         }
     }
     
     func makeCoordinator() -> ArticleWebView.Coordinator {
-        return Coordinator(article: article)
+        return Coordinator(article: article, state: appState)
     }
     
 }

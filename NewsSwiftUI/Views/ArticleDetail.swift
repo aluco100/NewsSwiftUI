@@ -11,10 +11,40 @@ import SwiftUI
 struct ArticleDetail: View {
     
     @State var article: Article
+    @ObservedObject var appState: ArticleDetailAppState
+    @State var size: CGFloat = 0.5
+    
+    var repeatingAnimation: Animation{
+        Animation.spring().repeatForever()
+    }
     
     var body: some View {
-        ArticleWebView(article: article)
-        .navigationBarTitle(Text(article.title))
+        VStack{
+            GeometryReader{
+                geo in
+                ArticleWebView(appState: self.appState, article: self.article).frame(height: self.appState.loading ? 0.0 : geo.size.height)
+            }
+            
+            if self.appState.loading{
+                VStack{
+                    Spacer()
+                    HStack{
+                        Spacer()
+                        Image(systemName: "doc.circle.fill")
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .scaleEffect(self.size)
+                        .onAppear {
+                            withAnimation(self.repeatingAnimation) {
+                                self.size = 1.0
+                            }
+                        }
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+        }.navigationBarTitle(Text(article.title))
     }
 }
 
@@ -28,7 +58,8 @@ struct ArticleDetail_Previews: PreviewProvider {
         "publishedAt": "2020-05-07T20:47:18Z",
         "content": "Heres what you need to know:\r\nA copy of the C.D.C. guidance obtained by The New York Times includes sections for child care programs, schools and day camps, churches and other communities of faith, employers with vulnerable workers, restaurants and bars, and … [+32597 chars]"
     ])!
+    static let appState = ArticleDetailAppState()
     static var previews: some View {
-        ArticleDetail(article: Self.article)
+        ArticleDetail(article: Self.article, appState: Self.appState)
     }
 }
