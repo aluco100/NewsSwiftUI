@@ -51,7 +51,9 @@ struct ArticleList: View {
                         VStack {
                             ForEach(self.appState.articles){
                                 article in
-                                ArticleRow(article: article).frame(height: 300)
+                                NavigationLink(destination: ArticleDetail(article: article)){
+                                    ArticleRow(article: article).frame(height: 300)
+                                }.buttonStyle(PlainButtonStyle())
                             }
                         }
                         .frame(width: geo.size.width)
